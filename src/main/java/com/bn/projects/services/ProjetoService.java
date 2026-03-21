@@ -21,7 +21,7 @@ public class ProjetoService {
     public List<ProjetoModel> buscarTodosProjetos() {
         return projetoRepository.findAll();
     }
-    
+
     public Optional<ProjetoModel> buscarPorId(Long id) {
         return projetoRepository.findById(id);
     }
