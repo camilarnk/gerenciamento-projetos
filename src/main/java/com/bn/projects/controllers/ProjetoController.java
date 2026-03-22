@@ -34,15 +34,27 @@ public class ProjetoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<ProjetoModel>> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ProjetoModel> buscarPorId(@PathVariable Long id) {
         Optional<ProjetoModel> request = projetoService.buscarPorId(id);
-        return ResponseEntity.ok().body(request);
+
+        if(request.isPresent()) {
+            return ResponseEntity.ok(request.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarProjeto(@PathVariable Long id) {
-        projetoService.deletarProjeto(id);
-        return ResponseEntity.noContent().build();
+        Optional<ProjetoModel> request = projetoService.buscarPorId(id);
+
+        if(request.isPresent()) {
+            projetoService.deletarProjeto(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 }
